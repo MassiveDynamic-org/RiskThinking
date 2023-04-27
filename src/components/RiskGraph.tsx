@@ -65,9 +65,9 @@ const LineGraph = ({ data }) => {
 
   const options = [
     { value: "", label: "Select Graph Type" },
-    { value: "location", label: "By Location" },
-    { value: "asset", label: "By Asset" },
-    { value: "business", label: "By Business" },
+    { value: "location", label: "Location" },
+    { value: "asset", label: "Asset" },
+    { value: "business", label: "Business" },
   ];
 
   const chartOptions = {
