@@ -16,7 +16,7 @@ interface RiskDataDisplayProps {
 
 
 const IndexPage: React.FC = () => {
-const [data, setData] = React.useState<RiskDataDisplayProps['data']>([]);
+const [sortedData, setData] = React.useState<RiskDataDisplayProps['data']>([]);
 //const [data, setData] = React.useState<RiskItem[]>([]);
   React.useEffect(() => {
     const fetchDataAsync  = async () => {
@@ -24,7 +24,8 @@ const [data, setData] = React.useState<RiskDataDisplayProps['data']>([]);
       const response = await fetch(base_url+risk_data_csv);
       const csvData = await response.text();
       const data = await parseAndTransformCsv(csvData);
-      setData(data);      
+      const sortedData = data.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+      setData(sortedData);      
       //const jsonData = await fetchData();
       //setData(jsonData);
     };
@@ -40,19 +41,19 @@ const [data, setData] = React.useState<RiskDataDisplayProps['data']>([]);
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="flex flex-col justify-center items-center ">
           <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex h-1/3">
-          <RiskDataDisplay data={data} />
+          <RiskDataDisplay data={sortedData} />
 
           </div>
           <div style={{ minHeight: '100px' }} className="w-full max-w-5xl h-20 flex-shrink-0 ">
           </div>
           <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex h-1/3">
-          <AssetTable assets={data} />
+          <AssetTable assets={sortedData} />
           </div>
           <div style={{ minHeight: '100px' }} className="w-full max-w-5xl h-20 flex-shrink-0 ">
           </div>
 
           <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex h-1/3">
-          <LineGraph  data={data} />
+          <LineGraph  data={sortedData} />
           </div>
 
         </div>
