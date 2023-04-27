@@ -9,6 +9,7 @@ interface RiskDataDisplayProps {
 interface HandleBoundsChangeProps {
   bounds: GoogleMapReact.Bounds
 }
+const map_api_key= process.env.GOOGLE_MAP_API_KEY || "";
 const RiskDataDisplay = ({ data }: RiskDataDisplayProps) => {
   const [bounds, setBounds] = useState(null);
 
@@ -20,7 +21,7 @@ const RiskDataDisplay = ({ data }: RiskDataDisplayProps) => {
     <h2 className="text-2xl ">Locations </h2>
 
       <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyDwyMjzC_DNXa5yj8ZDCwC0M4594JMa98o' }}
+        bootstrapURLKeys={{ key: map_api_key }}
         defaultCenter={{ lat: 59.95, lng: -119.27337 }}
         defaultZoom={1}
         onChange={handleBoundsChange}
