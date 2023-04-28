@@ -28,23 +28,62 @@ const LineGraph = ({ data }) => {
       ];
 
       uniqueLocations.forEach((location) => {
+        let groupLocationbyDecade = {};
+        let transformedLocationData = []
+
         const locationData = data.filter(
           (item) => item.Lat + item.Long === location
         );
+        uniqueDecade.forEach((year) => {
+          groupLocationbyDecade[year] = [];
+          const acumLocationData = locationData.filter(
+            (item) => {
+              if(item.Year === year){
+                groupLocationbyDecade[year].push(item)
+              }
+            }
+          );
+        })
+        for (let key in groupLocationbyDecade){
+          let label = key;
+          const accumulatedRiskRating = groupLocationbyDecade[key].reduce(
+          (accumulator, currentValue) => accumulator + parseFloat(currentValue.Risk_Rating),0);
+          transformedLocationData.push(accumulatedRiskRating/groupLocationbyDecade[key].length);
+        }                   
         chartData.push({
           name: location,
-          data: locationData.map((item) => parseFloat(item.Risk_Rating)),
+          data: transformedLocationData,
         });
       });
     } else if (option === "asset") {
       // TO DO : need to transform the data to reflect average  risk value of similar asset for each dacade 
+
       const uniqueAssets = [...new Set(data.map((item) => item.Asset_Name))];
 
       uniqueAssets.forEach((asset) => {
+        let groupAssetbyDecade = {};
+        let transformedAssetData = []
         const assetData = data.filter((item) => item.Asset_Name === asset);
+
+        uniqueDecade.forEach((year) => {
+          groupAssetbyDecade[year] = [];
+          const acumAssetData = assetData.filter(
+            (item) => {
+              if(item.Year === year){
+                groupAssetbyDecade[year].push(item)
+              }
+            }
+          );
+        })  
+        for (let key in groupAssetbyDecade){
+          let label = key;
+          const accumulatedRiskRating = groupAssetbyDecade[key].reduce(
+          (accumulator, currentValue) => accumulator + parseFloat(currentValue.Risk_Rating),0);
+            transformedAssetData.push(accumulatedRiskRating/groupAssetbyDecade[key].length);
+        }  
         chartData.push({
           name: asset,
-          data: assetData.map((item) => parseFloat(item.Risk_Rating)),
+          data: transformedAssetData,
         });
       });
     } else if (option === "business") {
@@ -73,9 +112,6 @@ const LineGraph = ({ data }) => {
           let label = key;
           const accumulatedRiskRating = groupbyDecade[key].reduce(
           (accumulator, currentValue) => accumulator + parseFloat(currentValue.Risk_Rating),0);
-            let tempObj = {}
-            tempObj[key] = accumulatedRiskRating/groupbyDecade[key].length
-            console.log(tempObj)
             transformedData.push(accumulatedRiskRating/groupbyDecade[key].length);
         }        
         chartData.push({
