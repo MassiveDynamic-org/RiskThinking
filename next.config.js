@@ -9,8 +9,7 @@ const nextConfig = {
     RISK_DATA: process.env.RISK_DATA,
     RISK_DATA_CSV: process.env.RISK_DATA_CSV,
     GOOGLE_MAP_API_KEY : "AIzaSyDwyMjzC_DNXa5yj8ZDCwC0M4594JMa98o"
-  },
-  distDir: 'build'
+  }
 }
 
 module.exports = nextConfig
