@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { RiskItem } from "@/types/data";
 
-const LineGraph = ({ data }) => {
-  const [chartData, setChartData] = useState([]);
+interface RiskDataGraphProps {
+  data: RiskItem[];
+}
+interface ChartData{
+  name:string,
+  data:number[]
+}
+interface DcadeArray{
+  data:number
+}
+
+const LineGraph = ({ data }:RiskDataGraphProps) => {
+  debugger;
+  const [chartData, setChartData] = useState<ChartData[]>([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [mounted, setMounted] = useState(false);
-  const [uniqueDecade,setDecade] = useState([])
+  const [uniqueDecade,setDecade] = useState<number[]>([])
   debugger
 
 
@@ -15,11 +28,11 @@ const LineGraph = ({ data }) => {
     setMounted(true);
     setDecade(Decade(data))
   }, [data]);
-  const Decade = (data)=>{
-    return [...new Set(data.map((item) => item.Year)),]
+  const Decade = (data:RiskItem[])=>{
+    return Array.from(new Set(data.map((item) => item.Year)))
   }
-  const generateChartData = (data, option) => {
-    let chartData = [];
+  const generateChartData = (data:RiskItem[], option:string) => {
+    let chartData:ChartData[] = [];
     debugger;
     if (option === "location") {
       // TO DO : need to transform the data to reflect average  risk value of similar  location for each dacade 
@@ -28,8 +41,8 @@ const LineGraph = ({ data }) => {
       ];
 
       uniqueLocations.forEach((location) => {
-        let groupLocationbyDecade = {};
-        let transformedLocationData = []
+        let groupLocationbyDecade:{ [key: number]: any[] } = {};
+        let transformedLocationData: number[] = [];
 
         const locationData = data.filter(
           (item) => item.Lat + item.Long === location
@@ -51,7 +64,7 @@ const LineGraph = ({ data }) => {
           transformedLocationData.push(accumulatedRiskRating/groupLocationbyDecade[key].length);
         }                   
         chartData.push({
-          name: location,
+          name: location.toString(),
           data: transformedLocationData,
         });
       });
@@ -61,8 +74,8 @@ const LineGraph = ({ data }) => {
       const uniqueAssets = [...new Set(data.map((item) => item.Asset_Name))];
 
       uniqueAssets.forEach((asset) => {
-        let groupAssetbyDecade = {};
-        let transformedAssetData = []
+        let groupAssetbyDecade:{ [key: number]: any[] } = {};;
+        let transformedAssetData: number[] = [];
         const assetData = data.filter((item) => item.Asset_Name === asset);
 
         uniqueDecade.forEach((year) => {
@@ -93,8 +106,8 @@ const LineGraph = ({ data }) => {
       ];
 
       uniqueBusinesses.forEach((business) => {
-        let groupbyDecade = {};
-        let transformedData = []
+        let groupbyDecade:{ [key: number]: any[] } = {};;
+        let transformedData: number[] = [];
         const businessData = data.filter(
           (item) => item.Business_Category === business
         );
@@ -124,7 +137,7 @@ const LineGraph = ({ data }) => {
     return chartData;
   };
 
-  const handleOptionChange = (event) => {
+  const handleOptionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     setSelectedOption(event.target.value);
     setChartData(generateChartData(data, event.target.value));
   };

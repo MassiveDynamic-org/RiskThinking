@@ -5,15 +5,18 @@ import { useState,useCallback } from 'react';
 interface RiskDataDisplayProps {
   data: RiskItem[];
 }
-
-interface HandleBoundsChangeProps {
-  bounds: GoogleMapReact.Bounds
+interface Markers {
+  name : string,
+  reskLevel:number,
+  lat:number,
+  lng:number
 }
+
 const map_api_key= process.env.GOOGLE_MAP_API_KEY || "";
 const RiskDataDisplay = ({ data }: RiskDataDisplayProps) => {
   const [bounds, setBounds] = useState(null);
 
-  const handleBoundsChange = useCallback(({ bounds }:HandleBoundsChangeProps) => {
+  const handleBoundsChange = useCallback(({ bounds }:any) => {
     setBounds(bounds);
   }, []);
   return (
@@ -40,7 +43,7 @@ const RiskDataDisplay = ({ data }: RiskDataDisplayProps) => {
 
   );
 };
-function Marker({ name,reskLevel }) {
+function Marker({ name,reskLevel,lat,lng }:Markers) {
   return (
     <div style={{ color: (reskLevel<30)?'#D2222D': (reskLevel>=30 && reskLevel<= 80) ? '#FFBF00':'#238823' }}>
       <i className="fas fa-map-marker-alt"></i>

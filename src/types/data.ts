@@ -10,6 +10,6 @@ export interface RiskItem{
     Long: number,
     Business_Category: string,
     Risk_Rating: number,
-    Risk_Factors: {},
+    Risk_Factors:[],
     Year: number
 }

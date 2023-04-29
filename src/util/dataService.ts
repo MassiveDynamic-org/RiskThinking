@@ -13,7 +13,7 @@ export const fetchData = async (): Promise<DataItem[]> => {
 
 export const parseCsv = (csvData: string): Promise<RiskItem[]> => {
     return new Promise((resolve, reject) => {
-      parse(csvData.trim(), { columns: true }, (err, output) => {
+      parse(csvData.trim(), { columns: true }, (err:  undefined | null, output:RiskItem[]) => {
         if (err) {
           reject(err);
         } else {
@@ -27,7 +27,7 @@ export const parseCsv = (csvData: string): Promise<RiskItem[]> => {
   
 export function transformKeys(array: any[]): any[] {
   return array.map(obj => {
-    const newObj = {};
+    const newObj: { [key: string]: any } = {};
     Object.keys(obj).forEach(key => {
       newObj[key.replace(/\s+/g, '_')] = obj[key];
     });

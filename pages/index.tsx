@@ -24,7 +24,7 @@ const [sortedData, setData] = React.useState<RiskDataDisplayProps['data']>([]);
       const response = await fetch(base_url+risk_data_csv);
       const csvData = await response.text();
       const data = await parseAndTransformCsv(csvData);
-      const sortedData = data.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+      const sortedData = data.sort((a, b) => a.Year - b.Year);
       setData(sortedData);      
       //const jsonData = await fetchData();
       //setData(jsonData);

@@ -1,7 +1,10 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, TextField,makeStyles  } from '@material-ui/core';
 import { Business, LocationOn, Report, BusinessCenter, Today } from '@material-ui/icons';
 import React, { useState, useEffect } from 'react';
-
+import { RiskItem } from "@/types/data";
+interface RiskDataTableProps {
+  assets: RiskItem[];
+} 
 const useStyles = makeStyles({
     root: {
       width: "100%",
@@ -14,7 +17,8 @@ const useStyles = makeStyles({
       marginBottom: 16
     }
   });
-const AssetTable = ({ assets }) => {
+ 
+const AssetTable = ({ assets }:RiskDataTableProps) => {
     const columns = [
       { id: 'name', label: 'Asset Name', icon: <Business /> },
       { id: 'lat', label: 'Latitude', icon: <LocationOn /> },
@@ -35,24 +39,28 @@ const AssetTable = ({ assets }) => {
       setMounted(true);
     }, []);
 
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (event:React.MouseEvent<HTMLButtonElement> | null, newPage:number) => {
       setPage(newPage);
     };
   
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if(event != null){
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      }
     };
-    const handleFilterChange = (event) => {
+    const handleFilterChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+      if(event != null){
         setFilter(event.target.value);
         setPage(0);
-      };
+      }
+    };
       
     const filteredData = assets.filter(
         (item) =>
           item["Asset_Name"].toLowerCase().includes(filter.toLowerCase()) ||
           item["Business_Category"].toLowerCase().includes(filter.toLowerCase()) ||
-          item["Risk_Rating"].toLowerCase().includes(filter.toLowerCase())
+          item["Risk_Rating"]
     );      
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, assets.length - page * rowsPerPage);
