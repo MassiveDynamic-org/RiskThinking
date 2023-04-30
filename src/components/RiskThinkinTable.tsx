@@ -106,7 +106,24 @@ const AssetTable = ({ assets }:RiskDataTableProps) => {
                 <TableCell>{asset.Long}</TableCell>
                 <TableCell>{asset.Business_Category}</TableCell>
                 <TableCell>{asset.Risk_Rating}</TableCell>
-                <TableCell>{asset.Risk_Factors}</TableCell>
+                <TableCell><ul>{
+                  Object.entries(asset["Risk_Factors"].toString().split(',')).map(([key, value]) => { 
+                    return (
+                      (key == "0")?
+                      <li key={key}>
+                        {value.slice(1).replace(/"/g, '')}
+                      </li> :(Number(key) == asset["Risk_Factors"].toString().split(',').length-1 )?
+                      <li key={key}>
+                        {value.slice(0, value.length - 1).replace(/"/g, '')}
+                      </li>
+                      :<li key={key}>
+                        {value.replace(/"/g, '')}
+                      </li>                      
+                    );
+
+                  })
+                  }</ul>
+                  </TableCell>
                 <TableCell>{asset.Year}</TableCell>
               </TableRow>
             );
