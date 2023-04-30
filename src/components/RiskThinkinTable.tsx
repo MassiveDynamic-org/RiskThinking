@@ -74,6 +74,7 @@ const AssetTable = ({ assets }:RiskDataTableProps) => {
     <h2 className="text-2xl ">Risk Data</h2>
     {mounted && (
     <Paper className={classes.root}>
+      <h6 style={{padding:'10px', fontWeight:'bold'}}> Filter by Asset Name, Business Category or Year</h6>
       <TextField
         label="Filter"
         variant="outlined"

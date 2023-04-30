@@ -15,16 +15,14 @@ interface DcadeArray{
 }
 
 const LineGraph = ({ data }:RiskDataGraphProps) => {
-  debugger;
   const [chartData, setChartData] = useState<ChartData[]>([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [mounted, setMounted] = useState(false);
   const [uniqueDecade,setDecade] = useState<number[]>([])
-  debugger
 
 
   useEffect(() => {
-    setChartData(generateChartData(data, "business"));
+    setChartData(generateChartData(data, ""));
     setMounted(true);
     setDecade(Decade(data))
   }, [data]);
@@ -33,7 +31,6 @@ const LineGraph = ({ data }:RiskDataGraphProps) => {
   }
   const generateChartData = (data:RiskItem[], option:string) => {
     let chartData:ChartData[] = [];
-    debugger;
     if (option === "location") {
       // TO DO : need to transform the data to reflect average  risk value of similar  location for each dacade 
       const uniqueLocations = [
@@ -153,6 +150,9 @@ const LineGraph = ({ data }:RiskDataGraphProps) => {
     title: {
       text: "Risk Rating Over Time",
     },
+    subtitle: {
+      text:(chartData.length == 0)? 'To see the chart, select an option [Business, Asset, Location] from the dropdown menu':""
+    },    
     xAxis: {
       title: {
         text: "Year",

@@ -1,6 +1,7 @@
 import { DataItem, RiskItem } from '../types/data';
 import GoogleMapReact from 'google-map-react';
 import { useState,useCallback } from 'react';
+import PlaceIcon from '@material-ui/icons/Place';
 
 interface RiskDataDisplayProps {
   data: RiskItem[];
@@ -46,7 +47,7 @@ const RiskDataDisplay = ({ data }: RiskDataDisplayProps) => {
 function Marker({ name,reskLevel,lat,lng }:Markers) {
   return (
     <div style={{ color: (reskLevel<30)?'#D2222D': (reskLevel>=30 && reskLevel<= 80) ? '#FFBF00':'#238823' }}>
-      <i className="fas fa-map-marker-alt"></i>
+      <PlaceIcon style={{ color: (reskLevel<30)?'#D2222D': (reskLevel>=30 && reskLevel<= 80) ? '#FFBF00':'#238823', fontSize:"28px"}}  />
       {name}
     </div>
   );
