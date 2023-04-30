@@ -122,7 +122,7 @@ const AssetTable = ({ assets }:RiskDataTableProps) => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={assets.length}
+        count={filteredData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
