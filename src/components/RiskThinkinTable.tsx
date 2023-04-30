@@ -57,10 +57,14 @@ const AssetTable = ({ assets }:RiskDataTableProps) => {
     };
       
     const filteredData = assets.filter(
-        (item) =>
-          item["Asset_Name"].toLowerCase().includes(filter.toLowerCase()) ||
+        (item) =>{
+          let riskRatingStr = String(item["Risk_Rating"]);
+          let yearStr = String(item['Year']);
+          let filtered = (  item["Asset_Name"].toLowerCase().includes(filter.toLowerCase()) ||
           item["Business_Category"].toLowerCase().includes(filter.toLowerCase()) ||
-          item["Risk_Rating"]
+          riskRatingStr.includes(filter) || yearStr.includes(filter) )
+          return filtered;
+        }
     );      
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, assets.length - page * rowsPerPage);
